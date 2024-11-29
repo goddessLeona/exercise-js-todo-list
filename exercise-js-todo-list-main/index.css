@@ -1,0 +1,36 @@
+body{
+    background-color: rgb(95, 118, 159);
+}
+
+.container{
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(64, 47, 81);
+    border: 2px solid black;
+    align-items: center;
+
+}
+
+.input{
+    margin-bottom: 10px;
+}
+
+.ulList{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.material-symbols-outlined{
+    padding-left: 30px;
+    margin: 0px
+}
+
+li{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    size: 16px;
+    color: rgb(184, 179, 173);
+    padding-bottom: 8px;
+}
