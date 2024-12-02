@@ -1,41 +1,81 @@
 body{
     background-color: rgb(95, 118, 159);
+    display: flex;
+    justify-content: center;
+    background-image: url("Free-Universe-Images-3840x2400.jpg");
 }
 
 .container{
     display: flex;
     flex-direction: column;
-    background-color: rgb(64, 47, 81);
+    width: 600px;
+    background-color: rgb(124, 112, 137);
     border: 2px solid black;
     align-items: center;
+    justify-content: center;
+    border-radius: 15px;
+    margin-top: 50px;
+    opacity: 95%;
 
+}
+
+.protest-revolution-regular {
+  font-family: "Protest Revolution", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+h1{
+    font-family: "Protest Revolution", sans-serif;
 }
 
 .input{
     margin-bottom: 10px;
+    border-radius: 10px;
+    text-align: center;
+    border: 2px solid black;
+    height: 20px;
+    color:black;
 }
 
 .ulList{
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
 }
 
 .material-symbols-outlined{
+
     padding-left: 30px;
     margin: 0px;
-  font-variation-settings:
-  'FILL' 0,
-  'wght' 400,
-  'GRAD' 0,
-  'opsz' 24
+}
+
+.material-symbols-outlined.error{
+    display:none;
 }
 
 li{
     display: flex;
     align-items: center;
+    justify-content: flex-start;
     gap: 10px;
     size: 16px;
-    color: rgb(184, 179, 173);
+    color: rgb(30, 25, 33);
     padding-bottom: 8px;
+}
+
+.reset{
+    background-color: beige;
+    border: 2px solid black;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    padding: 5px;
+}
+
+.done{
+    display: none;
+}
+
+.done.activ{
+    background-color: blueviolet;
 }

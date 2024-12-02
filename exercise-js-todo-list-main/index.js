@@ -1,77 +1,76 @@
+
 const input = document.querySelector(".input");
 const ulList = document.querySelector(".ulList");
 const form = document.querySelector(".form");
 const box = document.querySelector(".container");
+const reset = document.querySelector(".reset");
 
-const toDoList = []
+let toDoList = [];
 
-const ToDoListObject ={
-    ToDo: toDoList,
-    Done: [],
+const ToDoListObject = {
+  ToDo: toDoList,
+  Done: [],
+};
+
+//saveToStorage();
+function saveToStorage() {
+  localStorage.setItem("ToDo", JSON.stringify(ToDoListObject));
 }
 
+// New Todo
 
+function newToDo() {
+  const newTask = input.value;
 
-// add new todos to list and a checkbox
+  const li = document.createElement("li");
+  li.innerText = newTask;
+  ulList.appendChild(li);
 
-input.addEventListener ("keypress",function(event){
-    
-    if (event.key === "Enter") {
-      event.preventDefault();
-      const li = document.createElement("li");
-      const ok = document.createElement("div");
-      ok.innerText = "check_box_outline_blank";
-      ok.setAttribute("class", "material-symbols-outlined");
-      li.appendChild(ok);
-      
-      const text = document.createTextNode(input.value);
+  const okok = `<div class="material-symbols-outlined">check_box_outline_blank</div>`;
+  const test = `<img class= done src="select_check_box_.png"></img>`;
 
-      li.appendChild(text);
-      ulList.appendChild(li)
- 
-      toDoList.push(li.lastChild.data);
-      
-      localStorage.setItem("ToDo", JSON.stringify(ToDoListObject));
-      input.value=""
-    }
-  })
+  li.insertAdjacentHTML("afterbegin", okok);
+  li.insertAdjacentHTML("afterbegin", test);
 
-// add a class to the checkbox
+  let x = new Uint32Array(1);
+  crypto.getRandomValues(x);
+  li.setAttribute("class", x);
+  ulList.appendChild(li);
+
+  toDoList.push(newTask);
+}
+
+// Console log all the todos
+
+function allTheToDos (){
   
+  for (const todoitem of toDoList) {
+    console.log(todoitem);
+  }
+}
+
+// make the todos done
+
+ulList.addEventListener("click", (e)=>{
+
+const targetClass = e.target.className;
+console.log(targetClass)
+})
 
 
+// Submit form
 
-// click to done on things you complited
-
-  ulList.addEventListener("click", (event)=>{
-    
-    const okChecked = document.createElement("div");
-    okChecked.innerText = "check_box";
-    okChecked.setAttribute("class", "material-symbols-outlined");
-
-    const siblings = ulList.firstChild
-    const child = siblings.firstChild
-    console.log(siblings)
-    console.log(child)
-
-    if(siblings){
-        console.log("hello")
-        child.parentNode.replaceChild(okChecked, child);
-    }
-  })
-    
-// submit
-
-form.addEventListener("submit", (event) => {
-  
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
+  newToDo();
+  saveToStorage();
+  form.reset();
 });
 
-//access the local storage
 
-let storedSettings = JSON.parse(localStorage.getItem("ToDoListObject"));
-console.log(storedSettings)
-   
-//console.log(JSON.parse(ToDoListObject));
+// reset todolist
 
-
-//localStorage.clear();
+reset.addEventListener("click", () => {
+  window.location.reload();
+  localStorage.clear();
+});
