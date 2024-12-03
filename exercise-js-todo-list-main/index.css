@@ -46,7 +46,7 @@ h1{
 
 .material-symbols-outlined{
 
-    padding-left: 30px;
+    padding-left: 5px;
     margin: 0px;
 }
 
@@ -58,7 +58,7 @@ li{
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    gap: 10px;
+    gap: 5px;
     size: 16px;
     color: rgb(30, 25, 33);
     padding-bottom: 8px;
@@ -79,3 +79,13 @@ li{
 .done.activ{
     background-color: blueviolet;
 }
+
+
+.material-symbols-outlined2 {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 24
+}
+
