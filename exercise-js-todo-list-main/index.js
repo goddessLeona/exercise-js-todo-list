@@ -1,3 +1,6 @@
+// looked on Carolines finished code and got a bit help from chatgpt, first time in my life. But I
+// was desperate to get it to work. My way of solving this exercice just made me crash in a wall over and over,  
+
 
 const input = document.querySelector(".input");
 const ulList = document.querySelector(".ulList");
@@ -50,7 +53,7 @@ function addTodo() {
 
     const newTodoObj = {
         task: task,
-        checked: false  // unchecked
+        checked: false  // unchecked/checked
     };
 
     todos.push(newTodoObj);
@@ -222,4 +225,4 @@ reset.addEventListener("click", () => {
   localStorage.clear();
 });
 
-newLiContent();*/
+*/
