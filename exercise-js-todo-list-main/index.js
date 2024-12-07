@@ -5,45 +5,168 @@ const form = document.querySelector(".form");
 const box = document.querySelector(".container");
 const reset = document.querySelector(".reset");
 
-let toDoList = [];
 
-const ToDoListObject = {
-  ToDo: toDoList,
-  Done: [],
-};
+// hämtar från local storge
+let todos = JSON.parse(localStorage.getItem("todos")) || [];
 
-//saveToStorage();
-function saveToStorage() {
-  localStorage.setItem("ToDo", JSON.stringify(ToDoListObject));
+// Save to local storage
+function saveTodo() {
+  localStorage.setItem("todos", JSON.stringify(todos));
 }
+
 
 // New Todo
 
-function newToDo() {
+function newLiContent(){
+  ulList.innerHTML = "";
+
+   todos.forEach((todo, index) => {
+        const liElement = document.createElement("li");
+
+        liElement.innerHTML =
+          /*html*/
+          `<div class="check-box">
+          <span class="material-symbols-outlined" todoIndex="${index}">${todo.checked ? "check_small" : "check_box_outline_blank"}
+          </span>
+        </div>
+
+          
+        <div class="action">
+          <div class="enterTodo">${todo.task}</div>
+
+          <div class="move">
+            <span class=" up material-symbols-outlined" todoIndex= "${index}">arrow_upward</span>
+            <span class=" down material-symbols-outlined" todoIndex= "${index}">arrow_downward</span
+          </div>
+
+          <div class="remove">
+            <span class="close material-symbols-outlined" todoIndex= "${index}">delete</span>
+          </div>
+
+        </div>
+        `;
+        
+        ulList.appendChild(liElement);
+})
+}
+
+function addTodo() {
+    const task = input.value.trim();
+
+    const newTodoObj = {
+        task: task,
+        checked: false  // unchecked
+    };
+
+    todos.push(newTodoObj);
+    saveTodo();  
+    newLiContent();  
+
+    input.value = ""; 
+}
+
+// summit by enter
+
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
+  newLiContent();
+  addTodo();
+  saveTodo();
+  form.reset();
+});
+
+// remove todo
+function removeTodo(index) {
+  todos.splice(index, 1);
+  saveTodo();
+  newLiContent();
+}
+
+//flytta ner en todo
+function moveTodoDown(index){ 
+    if(index < todos.length - 1){
+    const todoToMoveDown = todos[index];
+    
+        todos.splice (index, 1);
+        todos.splice(index +1, 0, todoToMoveDown);
+        
+        saveTodo();
+        newLiContent();
+    }
+};
+
+// flytta up en todo
+function moveTodoUp(index){ 
+    if(index > 0){
+
+        const todoMoveUp= todos[index];
+        
+        todos.splice(index, 1);
+        todos.splice(index -1, 0, todoMoveUp);
+        
+        saveTodo();
+        newLiContent();
+    }
+};
+
+// markera done
+function todoChecked(index) {
+    todos[index].checked = !todos[index].checked;
+    saveTodo();
+    renderTodos();
+};
+
+ulList.addEventListener("click", function (event) {
+  const index = event.target.getAttribute("todoIndex");
+
+  if (event.target.classList.contains("close")) {
+    removeTodo(index);
+  }
+
+  if (event.target.classList.contains("checkbox")) {
+    todoChecked(index);
+  }
+
+  if (event.target.classList.contains("up")) {
+    moveTodoUp(index);
+  }
+
+  if (event.target.classList.contains("down")) {
+    moveTodoDown(index);
+  }
+});
+
+reset.addEventListener("click", () => {
+  window.location.reload();
+  localStorage.clear();
+});
+
+newLiContent();
+
+
+//Old version
+/*function newToDo() {
   const newTask = input.value;
 
   const li = document.createElement("li");
   li.innerText = newTask;
-  ulList.appendChild(li);
+  li.setAttribute("class", newTask)
 
-  const okok = `<div class="material-symbols-outlined">check_box_outline_blank</div>`;
-  const arrowUp =`<span class="material-symbols-outlined">arrow_upward</span>`;
-  const arrowDown = `<span class="material-symbols-outlined">arrow_downward</span>`;
+  const okok = `<div class=" ok material-symbols-outlined">check_box_outline_blank</div>`;
+  const arrowUp =`<span class=" up material-symbols-outlined">arrow_upward</span>`;
+  const arrowDown = `<span class=" down material-symbols-outlined">arrow_downward</span>`;
+  const remove = `<span class=" delite material-symbols-outlined">delete</span>`;
   
   li.insertAdjacentHTML("afterbegin", okok);
   li.insertAdjacentHTML("afterbegin", arrowUp);
   li.insertAdjacentHTML("afterbegin", arrowDown);
+  li.insertAdjacentHTML("afterbegin", remove);
   
-  let x = new Uint32Array(1);
-  crypto.getRandomValues(x);
-  li.setAttribute("class", x);
   ulList.appendChild(li);
 
-  toDoList.push(newTask);
+  todos.push(newTask);
 }
-
-// Console log all the todos
-
+// all the todos
 function allTheToDos (){
   
   for (const todoitem of toDoList) {
@@ -57,14 +180,37 @@ function allTheToDos (){
 ulList.addEventListener("click", (e)=>{
 
 const targetLiChild = e.target;
-console.log(targetLiChild)
 
-if(!targetLiChild)return;
+if (targetLiChild.innerText === `check_box_outline_blank`) {
+  const newTodoContenet = `check_small`;
+  targetLiChild.innerText = newTodoContenet;
+  
+  const x = targetLiChild.parentElement
+  console.log(x)
+  
+  
+}else if(targetLiChild.innerText ===`check_small`){
+  const newTodoContenet2 = `check_box_outline_blank`;
+  targetLiChild.innerText = newTodoContenet2;
+}else if (targetLiChild.innerText === `delete`) {
+  
+  
+   const test = targetLiChild.parentElement
 
-const newTodoContenet = `check_small`
-targetLiChild.innerText = newTodoContenet
+    if(test.hasChildNodes()){
 
+      test.innerText = ""
+      test.removeChild(test.children[0]);
+      test.removeChild(test.children[0]);
+      test.removeChild(test.children[0]);
+      test.removeChild(test.children[0]);
+    }
+}else if(targetLiChild.innerText === `arrow_upward`){
+  const moveUp = targetLiChild.parentElement;
+}
 })
+
+
 
 
 // Submit form
@@ -83,3 +229,5 @@ reset.addEventListener("click", () => {
   window.location.reload();
   localStorage.clear();
 });
+
+newLiContent();*/
