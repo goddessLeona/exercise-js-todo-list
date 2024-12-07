@@ -65,6 +65,11 @@ h1{
     flex-direction: row;
 }
 
+.checked {
+  text-decoration: line-through; /* Stryker över texten när uppgiften är slutförd */
+  color: rgb(39, 30, 45); /* Färga texten grå för slutförda uppgifter */
+}
+
 
 li{
     display: flex;

@@ -25,14 +25,9 @@ function newLiContent(){
 
         liElement.innerHTML =
           /*html*/
-          `<div class="check-box">
-          <span class="material-symbols-outlined" todoIndex="${index}">${todo.checked ? "check_small" : "check_box_outline_blank"}
-          </span>
-        </div>
-
-          
+          `
         <div class="action">
-          <div class="enterTodo">${todo.task}</div>
+          <div class="enterTodo ${todo.checked ? "checked" : ""}" todoIndex="${index}"> ${todo.task}</div>
 
           <div class="move">
             <span class=" up material-symbols-outlined" todoIndex= "${index}">arrow_upward</span>
@@ -109,22 +104,12 @@ function moveTodoUp(index){
     }
 };
 
-// markera done
-function todoChecked(index) {
-    todos[index].checked = !todos[index].checked;
-    saveTodo();
-    renderTodos();
-};
 
 ulList.addEventListener("click", function (event) {
   const index = event.target.getAttribute("todoIndex");
 
   if (event.target.classList.contains("close")) {
     removeTodo(index);
-  }
-
-  if (event.target.classList.contains("checkbox")) {
-    todoChecked(index);
   }
 
   if (event.target.classList.contains("up")) {
@@ -134,6 +119,13 @@ ulList.addEventListener("click", function (event) {
   if (event.target.classList.contains("down")) {
     moveTodoDown(index);
   }
+
+  if (event.target.classList.contains("enterTodo")) {
+    todos[index].checked = !todos[index].checked; // Växla mellan true/false
+    saveTodo();
+    newLiContent();
+  }
+
 });
 
 reset.addEventListener("click", () => {
